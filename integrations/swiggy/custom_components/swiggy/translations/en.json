@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Swiggy login",
+        "description": "Paste the Swiggy auth cookies JSON exported from the cookie-extractor app.",
+        "data": {
+          "cookies_json": "Cookies JSON"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Re-authenticate Swiggy",
+        "description": "Your Swiggy session has expired. Paste a fresh cookies JSON.",
+        "data": {
+          "cookies_json": "Cookies JSON"
+        }
+      }
+    },
+    "error": {
+      "invalid_json": "Cookies JSON could not be parsed.",
+      "invalid_cookies": "Cookies JSON did not match the expected schema.",
+      "invalid_auth": "Swiggy rejected the cookies (auth failed).",
+      "cannot_connect": "Could not reach Swiggy."
+    },
+    "abort": {
+      "already_configured": "This Swiggy account is already configured.",
+      "reauth_successful": "Re-authentication successful."
+    }
+  },
+  "services": {
+    "refresh": {
+      "name": "Refresh",
+      "description": "Force an immediate refresh of the Swiggy order data."
+    }
+  }
+}
