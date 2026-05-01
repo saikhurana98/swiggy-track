@@ -1,13 +1,13 @@
 {
   "domain": "swiggy",
   "name": "Swiggy Order Tracker",
-  "version": "0.0.0",
-  "documentation": "https://github.com/saikhurana98/swiggy-track",
-  "issue_tracker": "https://github.com/saikhurana98/swiggy-track/issues",
   "codeowners": ["@saikhurana98"],
   "config_flow": true,
-  "iot_class": "cloud_polling",
+  "dependencies": [],
+  "documentation": "https://github.com/saikhurana98/swiggy-track",
   "integration_type": "service",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/saikhurana98/swiggy-track/issues",
   "requirements": ["pydantic>=2.8.0"],
-  "dependencies": []
+  "version": "0.0.0"
 }
