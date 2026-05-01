@@ -83,6 +83,12 @@ Conventional Commits enforced via commitlint + husky. See `commitlint.config.js`
 
 Swiggy session cookies grant full account access including the ability to place orders against your saved payment methods. The cookie-extractor binds to `127.0.0.1` only and never persists cookies to disk. Do not commit cookie values, do not log them, do not paste them into shared chats.
 
+## Documentation
+
+- [docs/ARCHITECTURE.md](./docs/ARCHITECTURE.md) — monorepo layout, data flow, components, CI/CD, security model.
+- [docs/SWIGGY_API_NOTES.md](./docs/SWIGGY_API_NOTES.md) — reverse-engineered Swiggy behaviour: WAF, login flow, auth cookies, order schema, things-to-re-verify.
+- [CHANGELOG.md](./CHANGELOG.md) — per-version notes.
+
 ## License
 
 MIT — see [LICENSE](./LICENSE).
