@@ -1,9 +1,17 @@
-import type { CookieJar } from 'tough-cookie';
-
-export interface PendingLogin {
-  phone: string;
-  jar: CookieJar;
+export interface CliOptions {
+  output: string | undefined;
+  timeoutSeconds: number;
+  showHelp: boolean;
+  showVersion: boolean;
 }
 
-export const SESSION_COOKIE_NAME = 'swiggy_session';
-export const SESSION_TTL_MS = 10 * 60 * 1000;
+export interface BrowserCookie {
+  name: string;
+  value: string;
+  domain: string;
+  path: string;
+  expires?: number;
+  httpOnly?: boolean;
+  secure?: boolean;
+  sameSite?: 'Strict' | 'Lax' | 'None';
+}

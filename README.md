@@ -32,15 +32,20 @@ Track your live Swiggy order from Home Assistant. Status, ETA, restaurant, deliv
 
 ### 2. Get your Swiggy cookies
 
+Swiggy fronts every request with an AWS WAF JS challenge, so headless / server-side
+fetches are blocked at the edge. The cookie-extractor instead launches a real Chromium
+window for you to log in normally:
+
 ```bash
 git clone https://github.com/saikhurana98/swiggy-track
 cd swiggy-track
 pnpm install
-pnpm --filter cookie-extractor dev
-# open http://127.0.0.1:8765
+pnpm --filter @swiggy-track/cookie-extractor exec playwright install chromium
+pnpm --filter @swiggy-track/cookie-extractor login
 ```
 
-Enter your phone, OTP, copy the cookie JSON.
+A browser opens at swiggy.com — enter your phone, complete the OTP. The CLI prints the
+session cookie JSON to stdout and copies it to your clipboard.
 
 ### 3. Configure HA
 

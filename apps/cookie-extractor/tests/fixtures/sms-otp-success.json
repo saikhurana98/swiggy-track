@@ -1,9 +1,0 @@
-{
-  "statusCode": 0,
-  "data": {
-    "sessionId": "fixture-session-id",
-    "retryAfterSeconds": 30,
-    "channel": "sms"
-  },
-  "statusMessage": "OTP sent"
-}
