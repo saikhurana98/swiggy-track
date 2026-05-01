@@ -24,3 +24,7 @@ htmlcov/
 
 .turbo/
 .swc/
+
+.playwright-mcp/
+playwright-report/
+test-results/
