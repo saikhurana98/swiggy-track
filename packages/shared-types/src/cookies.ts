@@ -10,8 +10,8 @@ import { z } from 'zod';
 export const SwiggyAuthCookiesSchema = z
   .object({
     _session_tid: z.string().min(1),
-    tid: z.string().min(1),
-    sid: z.string().min(1),
+    tid: z.string().min(1).optional(),
+    sid: z.string().min(1).optional(),
     userLocation: z.string().optional(),
     capturedAt: z.string().datetime({ offset: true }),
     phoneLast4: z.string().regex(/^\d{4}$/, 'must be 4 digits'),

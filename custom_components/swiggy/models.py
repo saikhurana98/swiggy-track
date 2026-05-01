@@ -36,8 +36,8 @@ PhoneLast4 = Annotated[str, StringConstraints(pattern=r"^\d{4}$")]
 
 class SwiggyAuthCookies(_StrictModel):
     session_tid: str = Field(..., alias="_session_tid", min_length=1)
-    tid: str = Field(..., min_length=1)
-    sid: str = Field(..., min_length=1)
+    tid: str | None = Field(default=None, min_length=1)
+    sid: str | None = Field(default=None, min_length=1)
     user_location: str | None = Field(default=None, alias="userLocation")
     captured_at: datetime = Field(..., alias="capturedAt")
     phone_last4: PhoneLast4 = Field(..., alias="phoneLast4")

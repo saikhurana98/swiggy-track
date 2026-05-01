@@ -58,9 +58,19 @@ describe('extractAuthCookies', () => {
     expect(new Date(result.capturedAt).toString()).not.toBe('Invalid Date');
   });
 
-  it('throws when one of the auth cookies is missing', () => {
-    const missing = baseCookies.filter((c) => c.name !== 'tid');
-    expect(() => extractAuthCookies(missing, { phoneLast4: '0000' })).toThrow(/tid/);
+  it('throws when _session_tid is missing', () => {
+    const missing = baseCookies.filter((c) => c.name !== '_session_tid');
+    expect(() => extractAuthCookies(missing, { phoneLast4: '0000' })).toThrow(/_session_tid/);
+  });
+
+  it('omits tid and sid when those cookies are absent', () => {
+    const onlySession = baseCookies.filter(
+      (c) => c.name !== 'tid' && c.name !== 'sid' && c.name !== 'userLocation',
+    );
+    const result = extractAuthCookies(onlySession, { phoneLast4: '0000' });
+    expect(result.tid).toBeUndefined();
+    expect(result.sid).toBeUndefined();
+    expect(result._session_tid).toBe('session-abcdef');
   });
 
   it('omits userLocation when cookie not set', () => {

@@ -22,10 +22,11 @@ On success, the captured session cookies are printed as JSON to stdout and
 copied to the clipboard. The browser closes automatically.
 
 Options:
-  --output <file>      Also write the JSON to <file> (mode 0600)
-  --timeout <seconds>  Maximum time to wait for login (default: 600)
-  -h, --help           Show this help text and exit
-  -V, --version        Show version and exit
+  --output <file>        Also write the JSON to <file> (mode 0600)
+  --timeout <seconds>    Maximum time to wait for login (default: 600)
+  --phone-last4 <digits> Skip the interactive prompt; use these 4 digits as phoneLast4
+  -h, --help             Show this help text and exit
+  -V, --version          Show version and exit
 `;
 
 function readPackageVersion(): string {
@@ -47,6 +48,7 @@ export function parseArgs(args: readonly string[]): CliOptions {
   const opts: CliOptions = {
     output: undefined,
     timeoutSeconds: 600,
+    phoneLast4: undefined,
     showHelp: false,
     showVersion: false,
   };
@@ -67,6 +69,15 @@ export function parseArgs(args: readonly string[]): CliOptions {
           throw new Error('--output requires a file path');
         }
         opts.output = next;
+        i += 1;
+        break;
+      }
+      case '--phone-last4': {
+        const next = args[i + 1];
+        if (next === undefined || !/^\d{4}$/.test(next)) {
+          throw new Error('--phone-last4 requires exactly 4 digits');
+        }
+        opts.phoneLast4 = next;
         i += 1;
         break;
       }
@@ -125,9 +136,16 @@ function lastFour(mobile: string): string | undefined {
 async function safeClose(launched: LaunchedBrowser | undefined): Promise<void> {
   if (launched === undefined) return;
   try {
-    await launched.browser.close();
+    await launched.context.close();
   } catch {
     // already closed
+  }
+  if (launched.browser !== undefined) {
+    try {
+      await launched.browser.close();
+    } catch {
+      // already closed
+    }
   }
 }
 
@@ -173,7 +191,8 @@ async function runLogin(opts: CliOptions): Promise<void> {
     });
 
     const phoneFromTraffic = phoneCapture.latest;
-    let phoneLast4 = phoneFromTraffic !== undefined ? lastFour(phoneFromTraffic) : undefined;
+    let phoneLast4 =
+      opts.phoneLast4 ?? (phoneFromTraffic !== undefined ? lastFour(phoneFromTraffic) : undefined);
     if (phoneLast4 === undefined) {
       stderr.write('Phone number not seen on the wire.\n');
       phoneLast4 = await promptPhoneLast4();

@@ -1,3 +1,6 @@
+import { mkdirSync } from 'node:fs';
+import { homedir } from 'node:os';
+import { resolve as joinPath } from 'node:path';
 import { chromium } from 'playwright';
 import type { Browser, BrowserContext, Page, Request } from 'playwright';
 import { SwiggyAuthCookiesSchema } from '@swiggy-track/shared-types';
@@ -6,6 +9,8 @@ import type { BrowserCookie } from './types.js';
 
 const SWIGGY_HOME = 'https://www.swiggy.com/';
 const SMS_OTP_PATH = '/dapi/auth/sms-otp';
+const PROFILE_DIR = joinPath(homedir(), '.cache', 'swiggy-cookie-extractor', 'profile');
+const STEALTH_INIT = `Object.defineProperty(navigator,'webdriver',{get:()=>undefined});`;
 
 function isSwiggyDomain(domain: string): boolean {
   return domain === 'swiggy.com' || domain === '.swiggy.com' || domain.endsWith('.swiggy.com');
@@ -42,21 +47,17 @@ export function extractAuthCookies(
   const sid = findCookie(cookies, 'sid');
   const userLocation = findCookie(cookies, 'userLocation');
 
-  const missing: string[] = [];
-  if (sessionTid === undefined) missing.push('_session_tid');
-  if (tid === undefined) missing.push('tid');
-  if (sid === undefined) missing.push('sid');
-  if (missing.length > 0) {
-    throw new Error(`Missing required cookies on .swiggy.com: ${missing.join(', ')}`);
+  if (sessionTid === undefined) {
+    throw new Error('Missing required cookie on .swiggy.com: _session_tid');
   }
 
   const built: Record<string, string> = {
-    _session_tid: sessionTid?.value ?? '',
-    tid: tid?.value ?? '',
-    sid: sid?.value ?? '',
+    _session_tid: sessionTid.value,
     capturedAt: new Date().toISOString(),
     phoneLast4: input.phoneLast4,
   };
+  if (tid !== undefined) built['tid'] = tid.value;
+  if (sid !== undefined) built['sid'] = sid.value;
   if (userLocation !== undefined) {
     built['userLocation'] = tryDecode(userLocation.value);
   }
@@ -65,16 +66,28 @@ export function extractAuthCookies(
 }
 
 export interface LaunchedBrowser {
-  browser: Browser;
+  browser: Browser | undefined;
   context: BrowserContext;
   page: Page;
 }
 
 export async function launchChromium(): Promise<LaunchedBrowser> {
-  const browser = await chromium.launch({ headless: false });
-  const context = await browser.newContext({ viewport: { width: 1280, height: 800 } });
-  const page = await context.newPage();
-  return { browser, context, page };
+  mkdirSync(PROFILE_DIR, { recursive: true });
+  const context = await chromium.launchPersistentContext(PROFILE_DIR, {
+    channel: 'chrome',
+    headless: false,
+    viewport: null,
+    ignoreDefaultArgs: ['--enable-automation'],
+    args: [
+      '--disable-blink-features=AutomationControlled',
+      '--no-default-browser-check',
+      '--no-first-run',
+    ],
+  });
+  await context.addInitScript(STEALTH_INIT);
+  const existing = context.pages();
+  const page = existing[0] ?? (await context.newPage());
+  return { browser: undefined, context, page };
 }
 
 export async function gotoSwiggyHome(page: Page): Promise<void> {

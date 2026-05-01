@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import UTC, datetime
 from http import HTTPStatus
 from typing import Any, Final
+from urllib.parse import quote
 
 import aiohttp
 
@@ -74,7 +75,11 @@ def _to_iso(value: Any) -> str | None:
     if isinstance(value, (int, float)):
         return datetime.fromtimestamp(float(value), tz=UTC).isoformat()
     if isinstance(value, str):
-        return value
+        try:
+            datetime.fromisoformat(value.replace(" ", "T") if " " in value else value)
+        except ValueError:
+            return None
+        return value.replace(" ", "T") if " " in value else value
     return None
 
 
@@ -193,19 +198,23 @@ class SwiggyApiClient:
         self._cookies = cookies
 
     def _cookie_header(self) -> str:
-        parts = [
-            f"_session_tid={self._cookies.session_tid}",
-            f"tid={self._cookies.tid}",
-            f"sid={self._cookies.sid}",
-        ]
+        parts = [f"_session_tid={self._cookies.session_tid}"]
+        if self._cookies.tid:
+            parts.append(f"tid={self._cookies.tid}")
+        if self._cookies.sid:
+            parts.append(f"sid={self._cookies.sid}")
         if self._cookies.user_location:
-            parts.append(f"userLocation={self._cookies.user_location}")
+            parts.append(f"userLocation={quote(self._cookies.user_location, safe='')}")
         return "; ".join(parts)
 
     def _headers(self) -> dict[str, str]:
         return {
             "Accept": "application/json",
-            "User-Agent": "Mozilla/5.0 (HomeAssistant Swiggy Integration)",
+            "User-Agent": (
+                "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                "(KHTML, like Gecko) Chrome/147.0.0.0 Safari/537.36"
+            ),
+            "Referer": "https://www.swiggy.com/my-account/orders",
             "Cookie": self._cookie_header(),
         }
 

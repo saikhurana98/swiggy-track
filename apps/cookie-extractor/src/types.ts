@@ -1,6 +1,7 @@
 export interface CliOptions {
   output: string | undefined;
   timeoutSeconds: number;
+  phoneLast4: string | undefined;
   showHelp: boolean;
   showVersion: boolean;
 }

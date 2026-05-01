@@ -8,8 +8,8 @@ export function redact(value: string): string {
 
 export interface RedactedCookies {
   _session_tid: string;
-  tid: string;
-  sid: string;
+  tid?: string;
+  sid?: string;
   userLocation?: string;
   capturedAt: string;
   phoneLast4: string;
@@ -18,11 +18,11 @@ export interface RedactedCookies {
 export function redactCookies(cookies: SwiggyAuthCookies): RedactedCookies {
   const out: RedactedCookies = {
     _session_tid: redact(cookies._session_tid),
-    tid: redact(cookies.tid),
-    sid: redact(cookies.sid),
     capturedAt: cookies.capturedAt,
     phoneLast4: cookies.phoneLast4,
   };
+  if (cookies.tid !== undefined) out.tid = redact(cookies.tid);
+  if (cookies.sid !== undefined) out.sid = redact(cookies.sid);
   if (cookies.userLocation !== undefined) {
     out.userLocation = redact(cookies.userLocation);
   }

@@ -14,8 +14,14 @@ import sys
 from pathlib import Path
 from typing import Final
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+
 import aiohttp
-from custom_components.swiggy.api import SwiggyApiClient, SwiggyApiError, SwiggyAuthError
+from custom_components.swiggy.api import (
+    SwiggyApiClient,
+    SwiggyApiError,
+    SwiggyAuthError,
+)
 from custom_components.swiggy.models import SwiggyAuthCookies
 
 EXPECTED_ARGS: Final = 2
@@ -28,12 +34,15 @@ def _load_cookies(arg: str) -> SwiggyAuthCookies:
 
 
 def _redact(c: SwiggyAuthCookies) -> dict[str, str]:
-    return {
+    out = {
         "_session_tid": c.session_tid[:6] + "…",
-        "tid": c.tid[:6] + "…",
-        "sid": c.sid[:6] + "…",
         "phone": "•••• " + c.phone_last4,
     }
+    if c.tid:
+        out["tid"] = c.tid[:6] + "…"
+    if c.sid:
+        out["sid"] = c.sid[:6] + "…"
+    return out
 
 
 async def _run(arg: str) -> int:

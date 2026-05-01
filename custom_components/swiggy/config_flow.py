@@ -34,7 +34,8 @@ def _parse_cookies(raw: str) -> SwiggyAuthCookies:
 
 
 def _build_unique_id(cookies: SwiggyAuthCookies) -> str:
-    return f"{cookies.phone_last4}-{cookies.tid[:8]}"
+    discriminator = (cookies.tid or cookies.session_tid)[:8]
+    return f"{cookies.phone_last4}-{discriminator}"
 
 
 class SwiggyConfigFlow(ConfigFlow, domain=DOMAIN):
