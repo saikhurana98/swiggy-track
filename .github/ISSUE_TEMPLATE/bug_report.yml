@@ -1,0 +1,59 @@
+name: Bug report
+description: Report a bug in the Swiggy Order Tracker integration or cookie-extractor.
+labels: [bug, triage]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please fill out the sections below so we can reproduce it.
+  - type: input
+    id: ha-version
+    attributes:
+      label: Home Assistant version
+      placeholder: '2026.5.1'
+    validations:
+      required: true
+  - type: input
+    id: integration-version
+    attributes:
+      label: Integration version (swiggy-track)
+      placeholder: '0.1.0'
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser (only if cookie-extractor bug)
+      placeholder: 'Firefox 128 / Chrome 130 / n/a'
+    validations:
+      required: false
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs
+      description: Home Assistant logs (Settings -> System -> Logs) or cookie-extractor console output. Redact cookies and personal data.
+      render: shell
+    validations:
+      required: false

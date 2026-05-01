@@ -1,7 +1,9 @@
 # Swiggy Order Tracker for Home Assistant
 
-[![CI](https://github.com/Sai-Khurana/swiggy-track/actions/workflows/ci.yml/badge.svg)](https://github.com/Sai-Khurana/swiggy-track/actions/workflows/ci.yml)
+[![CI](https://github.com/saikhurana98/swiggy-track/actions/workflows/ci.yml/badge.svg)](https://github.com/saikhurana98/swiggy-track/actions/workflows/ci.yml)
+[![Release](https://github.com/saikhurana98/swiggy-track/actions/workflows/release.yml/badge.svg)](https://github.com/saikhurana98/swiggy-track/actions/workflows/release.yml)
 [![hacs_badge](https://img.shields.io/badge/HACS-Custom-41BDF5.svg)](https://github.com/hacs/integration)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 
 Track your live Swiggy order from Home Assistant. Status, ETA, restaurant, delivery partner, and more — surfaced as sensors you can plug into automations and dashboards.
 
@@ -24,13 +26,13 @@ Track your live Swiggy order from Home Assistant. Status, ETA, restaurant, deliv
 ### 1. Add via HACS
 
 1. HACS → Integrations → ⋮ → Custom repositories
-2. Add `https://github.com/Sai-Khurana/swiggy-track`, category **Integration**
+2. Add `https://github.com/saikhurana98/swiggy-track`, category **Integration**
 3. Install **Swiggy Order Tracker**, restart Home Assistant.
 
 ### 2. Get your Swiggy cookies
 
 ```bash
-git clone https://github.com/Sai-Khurana/swiggy-track
+git clone https://github.com/saikhurana98/swiggy-track
 cd swiggy-track
 pnpm install
 pnpm --filter cookie-extractor dev

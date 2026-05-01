@@ -56,8 +56,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: home-assistant/actions/hassfest@master
-        with:
-          path: integrations/swiggy
 
   hacs:
     name: HACS validate
