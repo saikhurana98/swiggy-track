@@ -1,0 +1,4 @@
+{
+  "statusCode": 1,
+  "statusMessage": "Too many OTP requests. Try after some time."
+}

@@ -1,0 +1,8 @@
+{
+  "statusCode": 0,
+  "data": {
+    "customerId": "fixture-customer-id",
+    "isNewCustomer": false
+  },
+  "statusMessage": "OTP verified"
+}
