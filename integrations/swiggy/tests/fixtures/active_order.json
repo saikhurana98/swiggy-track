@@ -1,0 +1,40 @@
+{
+  "statusCode": 0,
+  "data": {
+    "orders": [
+      {
+        "order_id": "987654321",
+        "order_status": "On the way",
+        "restaurant_name": "Burger Palace",
+        "restaurant_id": "rest-42",
+        "order_items": [
+          { "name": "Cheese Burger", "quantity": 2, "total": 199.5 },
+          { "name": "Fries", "quantity": 1, "total": 99.0 }
+        ],
+        "order_total": 498.0,
+        "order_time": "2026-05-01T12:34:56+05:30",
+        "sla_time": "2026-05-01T13:14:56+05:30",
+        "delivered_time_in_seconds": null,
+        "delivery_boy": {
+          "name": "Ravi K",
+          "mobile": "9999999999",
+          "trackingLat": 28.6139,
+          "trackingLng": 77.209
+        },
+        "delivery_address": { "address_line1": "Plot 7, Sector 21" }
+      },
+      {
+        "order_id": "987654000",
+        "order_status": "Delivered",
+        "restaurant_name": "Old Place",
+        "restaurant_id": "rest-1",
+        "order_items": [{ "name": "Sandwich", "quantity": 1, "total": 150.0 }],
+        "order_total": 150.0,
+        "order_time": "2026-04-30T18:00:00+05:30",
+        "sla_time": "2026-04-30T18:35:00+05:30",
+        "delivered_time_in_seconds": "2026-04-30T18:32:00+05:30",
+        "delivery_boy": null
+      }
+    ]
+  }
+}
