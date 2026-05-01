@@ -1,0 +1,10 @@
+node_modules
+dist
+build
+coverage
+.venv
+__pycache__
+*.lock
+pnpm-lock.yaml
+integrations/**/*.py
+*.md

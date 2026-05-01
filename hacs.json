@@ -1,0 +1,8 @@
+{
+  "name": "Swiggy Order Tracker",
+  "homeassistant": "2026.1.0",
+  "country": ["IN"],
+  "render_readme": true,
+  "zip_release": true,
+  "filename": "swiggy.zip"
+}

@@ -1,0 +1,31 @@
+{
+  "name": "@swiggy-track/cookie-extractor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Local mini-app to capture Swiggy session cookies via OTP login",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc -p tsconfig.build.json",
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests --no-error-on-unmatched-pattern",
+    "lint:fix": "eslint src tests --fix --no-error-on-unmatched-pattern",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.13.1",
+    "@swiggy-track/shared-types": "workspace:*",
+    "hono": "^4.6.3",
+    "tough-cookie": "^5.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/tough-cookie": "^4.0.5",
+    "msw": "^2.4.9",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2",
+    "vitest": "^2.1.2"
+  }
+}

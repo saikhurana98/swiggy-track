@@ -1,0 +1,45 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract version from tag
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Stamp manifest version
+        working-directory: integrations/swiggy/custom_components/swiggy
+        run: |
+          python - <<'PY'
+          import json, os, pathlib
+          version = os.environ["VERSION"]
+          path = pathlib.Path("manifest.json")
+          data = json.loads(path.read_text())
+          data["version"] = version
+          path.write_text(json.dumps(data, indent=2) + "\n")
+          PY
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+
+      - name: Build HACS zip
+        working-directory: integrations/swiggy/custom_components/swiggy
+        run: zip -r "${GITHUB_WORKSPACE}/swiggy.zip" . -x '*__pycache__*'
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: swiggy.zip
+          generate_release_notes: true
+          name: ${{ github.ref_name }}
+          tag_name: ${{ github.ref_name }}

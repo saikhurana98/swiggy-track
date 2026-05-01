@@ -1,0 +1,96 @@
+[project]
+name = "swiggy-ha-integration"
+version = "0.0.0"
+description = "Swiggy order tracker — Home Assistant custom integration"
+readme = "README.md"
+requires-python = ">=3.13.2"
+license = { text = "MIT" }
+authors = [{ name = "Sai Khurana" }]
+dependencies = [
+  "aiohttp>=3.10.0",
+  "pydantic>=2.8.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "homeassistant>=2026.1.0",
+  "pytest>=8.3.0",
+  "pytest-asyncio>=0.24.0",
+  "pytest-cov>=5.0.0",
+  "pytest-homeassistant-custom-component>=0.13.170",
+  "aioresponses>=0.7.6",
+  "ruff>=0.6.9",
+  "mypy>=1.11.0",
+]
+
+[tool.uv]
+prerelease = "allow"
+
+[dependency-groups]
+dev = [
+  "homeassistant>=2026.1.0",
+  "pytest>=8.3.0",
+  "pytest-asyncio>=0.24.0",
+  "pytest-cov>=5.0.0",
+  "pytest-homeassistant-custom-component>=0.13.170",
+  "aioresponses>=0.7.6",
+  "ruff>=0.6.9",
+  "mypy>=1.11.0",
+]
+
+[tool.ruff]
+target-version = "py313"
+line-length = 100
+src = ["custom_components", "tests"]
+
+[tool.ruff.lint]
+select = [
+  "E", "W", "F", "I", "B", "C4", "UP", "N", "ANN", "S", "BLE", "FBT",
+  "A", "COM", "C90", "DTZ", "T10", "EM", "EXE", "FA", "ISC", "ICN",
+  "G", "INP", "PIE", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM",
+  "TID", "TCH", "ARG", "PTH", "ERA", "PD", "PGH", "PL", "TRY",
+  "FLY", "NPY", "PERF", "FURB", "LOG", "RUF", "ASYNC",
+]
+ignore = [
+  "ANN401",  # allow Any for HA generic types
+  "COM812",  # conflicts with formatter
+  "ISC001",  # conflicts with formatter
+  "TRY003",  # long messages in exceptions OK for HA UX
+  "EM101", "EM102",
+  "PLR0913",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "ANN", "PLR2004", "SLF001", "ARG"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+warn_unreachable = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+disallow_any_generics = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+no_implicit_optional = true
+plugins = ["pydantic.mypy"]
+
+[[tool.mypy.overrides]]
+module = ["homeassistant.*", "pytest_homeassistant_custom_component.*"]
+ignore_missing_imports = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --strict-config"
+filterwarnings = ["error"]
