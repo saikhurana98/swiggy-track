@@ -15,7 +15,8 @@ Track your live Swiggy order from Home Assistant. Status, ETA, restaurant, deliv
 
 | Path                          | What                                                                                       |
 | ----------------------------- | ------------------------------------------------------------------------------------------ |
-| `integrations/swiggy/`        | Home Assistant custom integration (Python). Installed via HACS.                            |
+| `custom_components/swiggy/`   | Home Assistant custom integration (Python). Installed via HACS.                            |
+| `tests/`, `scripts/probe.py`  | Pytest suite + standalone probe CLI for the integration.                                   |
 | `apps/cookie-extractor/`      | Local TS + HTML mini-app to do OTP login and extract Swiggy session cookies for HA config. |
 | `packages/shared-types/`      | Source-of-truth zod schemas for cookies + order payloads.                                  |
 
@@ -63,9 +64,10 @@ Settings → Devices & services → Add Integration → **Swiggy** → paste coo
 
 ```bash
 pnpm install                       # JS workspaces
-cd integrations/swiggy && uv sync  # Python integration
+uv sync --all-extras --dev         # Python integration
 pnpm test                          # all TS tests
-cd integrations/swiggy && uv run pytest
+uv run pytest                      # Python tests
+bash scripts/preflight.sh          # full gates (run before tagging)
 ```
 
 Conventional Commits enforced via commitlint + husky. See `commitlint.config.js` for allowed scopes.

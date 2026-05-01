@@ -9,7 +9,6 @@ pnpm lint
 pnpm test
 pnpm format:check
 
-cd "$ROOT/integrations/swiggy"
 uv run ruff check .
 uv run ruff format --check .
 uv run mypy custom_components

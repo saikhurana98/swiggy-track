@@ -19,7 +19,7 @@ jobs:
         run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
 
       - name: Stamp manifest version
-        working-directory: integrations/swiggy/custom_components/swiggy
+        working-directory: custom_components/swiggy
         run: |
           python - <<'PY'
           import json, os, pathlib
@@ -33,7 +33,7 @@ jobs:
           VERSION: ${{ steps.version.outputs.version }}
 
       - name: Build HACS zip
-        working-directory: integrations/swiggy/custom_components/swiggy
+        working-directory: custom_components/swiggy
         run: zip -r "${GITHUB_WORKSPACE}/swiggy.zip" . -x '*__pycache__*'
 
       - name: Create GitHub Release

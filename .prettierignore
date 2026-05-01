@@ -6,5 +6,5 @@ coverage
 __pycache__
 *.lock
 pnpm-lock.yaml
-integrations/**/*.py
+**/*.py
 *.md

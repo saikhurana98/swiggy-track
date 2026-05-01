@@ -41,13 +41,11 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
-      - working-directory: integrations/swiggy
-        run: |
-          uv sync --all-extras --dev
-          uv run ruff check .
-          uv run ruff format --check .
-          uv run mypy custom_components
-          uv run pytest --cov=custom_components --cov-report=term-missing
+      - run: uv sync --all-extras --dev --prerelease=allow
+      - run: uv run ruff check .
+      - run: uv run ruff format --check .
+      - run: uv run mypy custom_components
+      - run: uv run pytest --cov=custom_components --cov-report=term-missing
 
   hassfest:
     name: Hassfest
