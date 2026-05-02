@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@swiggy-track/shared-types": "workspace:*",
-    "clipboardy": "^4.0.0",
+    "clipboardy": "^5.3.1",
     "playwright": "^1.48.0",
     "zod": "^3.23.8"
   },
